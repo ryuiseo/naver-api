@@ -1,0 +1,11 @@
+import styled from 'styled-components';
+
+export const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+`;
+export const Text = styled.p`
+  margin-right: 20px;
+`;
