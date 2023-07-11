@@ -14,8 +14,8 @@ import {
 import { useState } from 'react';
 import axios from 'axios';
 
-const API_ID = process.env.CLIENT_ID;
-const API_SECRET = process.env.CLIENT_SECRET;
+const API_ID = process.env.REACT_APP_CLIENT_ID;
+const API_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
 function DataPage() {
   const [selectedTimeUnit, setSelectedTimeUnit] = useState('');
@@ -55,7 +55,7 @@ function DataPage() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/shopping',
+        'http://localhost:3001/shopping',
         {
           startDate: startDateValue,
           endDate: endDateValue,
