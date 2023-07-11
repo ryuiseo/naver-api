@@ -11,10 +11,14 @@
 
 ### 프로젝트 설명 (CORS에러 해결방법)
 
+- 사용한 스택
+
+  - React + TypeScript, styled-Component, Node.js, express
+
 - 구현사항
 
   - 네이버 Open API 키워드 연령별 트렌드 조회를 활용
-  - styled-component를 사용해 컴포넌트에 격리된 스타일을 적용
+  - styled-Component를 사용해 컴포넌트에 격리된 스타일을 적용
   - rechatrs를 사용하여 연령별 트렌드 조회를 시각화
 
 - CORS에러 해결방법
