@@ -11,36 +11,54 @@ import {
   MiddleContainer,
   ChartContainer,
 } from './DataPageStyle';
-import { useState } from 'react';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store/index';
+import {
+  setSelectedTimeUnit,
+  setSelectedGender,
+  setSelectedDevice,
+  setStartDate,
+  setEndDate,
+  setCategory,
+  setKeyword,
+  setSelectedAges,
+  setChartData,
+  setShowChart,
+} from '../features/data/dataSlice';
 
 const API_ID = process.env.REACT_APP_CLIENT_ID;
 const API_SECRET = process.env.REACT_APP_CLIENT_SECRET;
+const PORT = process.env.REACT_APP_PORT;
 
 function DataPage() {
-  const [selectedTimeUnit, setSelectedTimeUnit] = useState('');
-  const [selectedGender, setSelectedGender] = useState('');
-  const [selectedDevice, setSelectedDevice] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [category, setCategory] = useState('');
-  const [keyword, setKeyword] = useState('');
-  const [selectedAges, setSelectedAges] = useState<string[]>([]);
-  const [chartData, setChartData] = useState<any[]>([]);
-  const [showChart, setShowChart] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    selectedTimeUnit,
+    selectedGender,
+    selectedDevice,
+    startDate,
+    endDate,
+    category,
+    keyword,
+    selectedAges,
+    chartData,
+    showChart,
+  } = useSelector((state: RootState) => state.data);
 
   const handleTimeUnitChange = (selectedValue: string) => {
-    setSelectedTimeUnit(selectedValue);
+    dispatch(setSelectedTimeUnit(selectedValue));
   };
+
   const handleGenderChange = (selectedValue: string) => {
-    setSelectedGender(selectedValue);
+    dispatch(setSelectedGender(selectedValue));
   };
   const handleDeviceChange = (selectedValue: string) => {
-    setSelectedDevice(selectedValue);
+    dispatch(setSelectedDevice(selectedValue));
   };
 
   const handleAgeCheckboxChange = (selectedAges: string[]) => {
-    setSelectedAges(selectedAges);
+    dispatch(setSelectedAges(selectedAges));
   };
 
   const submitForm = async () => {
@@ -55,7 +73,7 @@ function DataPage() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/shopping',
+        `http://localhost:${PORT}/shopping`,
         {
           startDate: startDateValue,
           endDate: endDateValue,
@@ -75,9 +93,8 @@ function DataPage() {
         },
       );
 
-      setChartData(response.data.results[0].data);
-      setShowChart(true);
-      console.log(response.data.results[0].data);
+      dispatch(setChartData(response.data.results[0].data));
+      dispatch(setShowChart(true));
     } catch (error) {
       console.error('조회에 실패하였습니다.', error);
     }
@@ -91,25 +108,25 @@ function DataPage() {
             label="시작일자"
             placeholder="startDate"
             value={startDate}
-            onChange={setStartDate}
+            onChange={(value) => dispatch(setStartDate(value))}
           />
           <InputSection
             label="종료일자"
             placeholder="endDate"
             value={endDate}
-            onChange={setEndDate}
+            onChange={(value) => dispatch(setEndDate(value))}
           />
           <InputSection
             label="카테고리"
             placeholder="category"
             value={category}
-            onChange={setCategory}
+            onChange={(value) => dispatch(setCategory(value))}
           />
           <InputSection
             label="키워드"
             placeholder="keyword"
             value={keyword}
-            onChange={setKeyword}
+            onChange={(value) => dispatch(setKeyword(value))}
           />
         </InputContainer>
         <SelectContainer>
@@ -158,4 +175,5 @@ function DataPage() {
     </>
   );
 }
+
 export default DataPage;
